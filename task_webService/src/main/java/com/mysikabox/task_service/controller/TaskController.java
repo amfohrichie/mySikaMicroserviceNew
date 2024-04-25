@@ -3,6 +3,11 @@ package com.mysikabox.task_service.controller;
 import com.mysikabox.task_service.Handlers.ResponseHandler;
 import com.mysikabox.task_service.entities.Task;
 import com.mysikabox.task_service.service.TaskService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +24,19 @@ public class TaskController {
 
 
     @PostMapping("/createTask")
+    @Operation(summary = "Create task", description = "Creates the task")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "201", description = "Task created Successfully",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = Task.class)
+                                    )
+                            }
+                    )
+            }
+    )
     public ResponseEntity<?> createTask(@RequestBody Task task) {
         try{
             Task createdTask = taskService.createTask(task);
@@ -29,6 +47,19 @@ public class TaskController {
     }
 
     @GetMapping("/fetchTaskById/{id}")
+    @Operation(summary = "Fetch task", description = "Get tasks")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Fetched Successfully",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = Task.class)
+                                    )
+                            }
+                    )
+            }
+    )
     public ResponseEntity<?> getTaskById(@PathVariable Long id) {
         try{
             Task task = taskService.getTaskById(id);
@@ -39,6 +70,20 @@ public class TaskController {
 
     }
 
+
+    @Operation(summary = "Update task", description = "Updates the task")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Task Updated Successfully",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = Task.class)
+                                    )
+                            }
+                    )
+            }
+    )
     @PutMapping("updateTask/{id}")
     public ResponseEntity<?> updateTask(@PathVariable Long id, @RequestBody Task updatedTask) {
         try{
@@ -51,6 +96,19 @@ public class TaskController {
     }
 
     @DeleteMapping("delete/{id}")
+    @Operation(summary = "Delete task", description = "Deletes the task")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Task deleted Successfully",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = Task.class)
+                                    )
+                            }
+                    )
+            }
+    )
     public ResponseEntity<?> deleteTask(@PathVariable Long id) {
         try{
             taskService.deleteTask(id);
@@ -61,6 +119,19 @@ public class TaskController {
     }
 
     @GetMapping("/fetchAllTask")
+    @Operation(summary = "Fetch all task", description = "Fetches all the task")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Fetches all tasks successfully",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = Task.class)
+                                    )
+                            }
+                    )
+            }
+    )
     public ResponseEntity<?> getAllTasks() {
         try{
             List<Task> tasks = taskService.getAllTasks();

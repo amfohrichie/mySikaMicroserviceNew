@@ -4,6 +4,11 @@ import com.mysikabox.user_service.Handlers.ResponseHandler;
 import com.mysikabox.user_service.entities.User;
 import com.mysikabox.user_service.repository.UserRepository;
 import com.mysikabox.user_service.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +29,19 @@ public class UserController {
 
 
     @PostMapping("/createUser")
+    @Operation(summary = "Creates a user", description = "Creates a user")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "201", description = "Creaeted Successfully",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = User.class)
+                                    )
+                            }
+                    )
+            }
+    )
     public ResponseEntity<?> createUser(@RequestBody User user){
 
         User userModel = userRepository.findUserByFirstNameAndLastName(user.getFirstName(), user.getLastName());
@@ -41,6 +59,19 @@ public class UserController {
 
 
     @GetMapping("/fetchUserById/{id}")
+    @Operation(summary = "Fetch by user id", description = "Gets user bu user ID")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Fetch Successful",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = User.class)
+                                    )
+                            }
+                    )
+            }
+    )
     public ResponseEntity<?> fetchUserById(@PathVariable Long id){
         try{
             Optional<User> allUsers = userService.getUserById(id);
@@ -53,6 +84,19 @@ public class UserController {
 
 
     @GetMapping("/fetchAllUsers")
+    @Operation(summary = "Fetch all users", description = "Fetch users")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Fetch Successful",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = User.class)
+                                    )
+                            }
+                    )
+            }
+    )
     public ResponseEntity<?> fetchAllUsers(){
         try{
             List<User> allUsers = userService.getAllUsers();
@@ -64,6 +108,19 @@ public class UserController {
     }
 
     @GetMapping("/searchName")
+    @Operation(summary = "Search username", description = "Searches for user")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Success",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = User.class)
+                                    )
+                            }
+                    )
+            }
+    )
     public ResponseEntity<?> searchUsersByName(@RequestParam String firstName) {
         User users = userService.searchUsersByName(firstName);
 
@@ -73,6 +130,19 @@ public class UserController {
 
 
     @PutMapping("/updateUserDetails/{id}")
+    @Operation(summary = "Update user details", description = "Updates a user")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Updated Successfully",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = User.class)
+                                    )
+                            }
+                    )
+            }
+    )
     public ResponseEntity<?> editUser(@PathVariable Long id ,@RequestBody User user){
         Optional<User> userModel = userRepository.findById(id);
         if(userModel.isEmpty()){
@@ -98,6 +168,19 @@ public class UserController {
 
 
     @DeleteMapping("/deleteUser/{id}")
+    @Operation(summary = "Deletes a user", description = "Deletes a user")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Deleted Successfully",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = User.class)
+                                    )
+                            }
+                    )
+            }
+    )
     public ResponseEntity<Object> deleteUser(@PathVariable Long id){
         try {
             userService.deleteUser(id);

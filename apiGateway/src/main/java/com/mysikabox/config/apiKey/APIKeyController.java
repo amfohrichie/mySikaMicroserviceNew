@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -67,7 +66,7 @@ public class APIKeyController {
 
 
     @PostMapping("/createToken")
-    public ResponseEntity<?> createToken(@Valid @RequestBody APIKeyRequest request){
+    public ResponseEntity<?> createToken(@RequestBody APIKeyRequest request){
         APIKey apiKey = new APIKey();
         apiKey.setOrganizationCode(request.getOrganizationCode());
         apiKey.setOrganizationName(request.getOrganizationName());

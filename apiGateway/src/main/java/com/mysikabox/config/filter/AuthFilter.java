@@ -42,6 +42,11 @@ public class AuthFilter implements GlobalFilter, Ordered {
                     || noAuthPaths.equals("/tasks/fetchTaskById/**")
                     || noAuthPaths.equals("/tasks/fetchAllTask")
 
+                    || noAuthPaths.contains("/api-docs")
+                    || noAuthPaths.contains("/docs.html")
+                    || noAuthPaths.contains("swagger-ui")
+                    || noAuthPaths.contains("index.html")
+
             ) {
                 return chain.filter(exchange);
             }
